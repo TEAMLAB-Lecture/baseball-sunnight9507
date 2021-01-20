@@ -176,9 +176,9 @@ def get_strikes_or_ball(user_input_number, random_number):
     for index, user_number in enumerate(user_input_number):
         if user_number in random_number:
             if user_number == random_number[index]:
-              strikes += 1
+                strikes += 1
             else:
-              ball += 1
+                ball += 1
     return [strikes, ball]
 
 
@@ -214,31 +214,29 @@ def is_yes(one_more_input):
 
 
 def is_no(one_more_input):
-    # '''
-    # Input:
-    #   - one_more_input : 문자열값으로 사용자가 입력하는 문자
-    # Output:
-    #   - 입력한 값이 대소문자 구분없이 "N" 또는 "NO"일 경우 True,
-    #     그렇지 않을 경우 False를 반환함
-    # Examples:
-    #   >>> import baseball_game as bg
-    # >>> bg.is_no("Y")
-    # False
-    # >>> bg.is_no("b")
-    # False
-    # >>> bg.is_no("n")
-    # True
-    # >>> bg.is_no("NO")
-    # True
-    # >>> bg.is_no("nO")
-    # True
-    # >>> bg.is_no("1234")
-    # False
-    # >>> bg.is_no("yes")
-    # False
-    # '''
-    # ===Modify codes below=============
-    # 조건에 따라 변환되어야 할 결과를 result 변수에 할당
+    """
+    Input:
+      - one_more_input : 문자열값으로 사용자가 입력하는 문자
+    Output:
+      - 입력한 값이 대소문자 구분없이 "N" 또는 "NO"일 경우 True,
+        그렇지 않을 경우 False를 반환함
+    Examples:
+      >>> import baseball_game as bg
+    >>> bg.is_no("Y")
+    False
+    >>> bg.is_no("b")
+    False
+    >>> bg.is_no("n")
+    True
+    >>> bg.is_no("NO")
+    True
+    >>> bg.is_no("nO")
+    True
+    >>> bg.is_no("1234")
+    False
+    >>> bg.is_no("yes")
+    False
+    """
 
     no_set = {"N", "NO"}
     input_string = one_more_input.upper()
