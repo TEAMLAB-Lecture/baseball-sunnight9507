@@ -3,12 +3,11 @@
 import unittest
 import baseball_game as bg
 
-from mock import patch
+from unittest.mock import patch
 from io import StringIO
 
 
 class TestBaseballGame(unittest.TestCase):
-
     def test_is_digit(self):
         self.assertEqual(True, bg.is_digit("3232"))
         self.assertEqual(False, bg.is_digit("32.2"))
@@ -49,11 +48,11 @@ class TestBaseballGame(unittest.TestCase):
         self.assertEqual(False, bg.is_validated_number("110"))
         self.assertEqual(False, bg.is_validated_number("111"))
 
-
     def test_get_not_duplicated_three_digit_number(self):
         for i in range(5000):
             is_duplicated = self.is_duplicated_number(
-                str(bg.get_not_duplicated_three_digit_number()))
+                str(bg.get_not_duplicated_three_digit_number())
+            )
             self.assertEqual(False, is_duplicated)
 
     def test_get_strikes_or_ball(self):
@@ -108,19 +107,18 @@ class TestBaseballGame(unittest.TestCase):
 
     def test_main(self):
         for x in range(2000):
-            with patch('builtins.input', side_effect=["0"]):
-                with patch('sys.stdout', new=StringIO()) as fakeOutput:
+            with patch("builtins.input", side_effect=["0"]):
+                with patch("sys.stdout", new=StringIO()) as fakeOutput:
                     bg.main()
                     console = fakeOutput.getvalue().strip().split("\n")
                     random_number = console[1][-3:].strip()
-                    self.assertFalse(
-                        self.is_duplicated_number(random_number))
+                    self.assertFalse(self.is_duplicated_number(random_number))
 
-        with patch('builtins.input', side_effect=["woe", "ewe", "121", "545", "0"]):
-            with patch('sys.stdout', new=StringIO()) as fakeOutput:
+        with patch("builtins.input", side_effect=["woe", "ewe", "121", "545", "0"]):
+            with patch("sys.stdout", new=StringIO()) as fakeOutput:
                 bg.main()
                 console = fakeOutput.getvalue().strip().split("\n")
-                for i in range(2,6):
+                for i in range(2, 6):
                     self.assertTrue("WRONG INPUT" in console[i].upper())
 
         input_list = [str(value) for value in range(101, 1000)]
@@ -134,8 +132,8 @@ class TestBaseballGame(unittest.TestCase):
 
         input_list.append("No")
 
-        with patch('builtins.input', side_effect=input_list):
-            with patch('sys.stdout', new=StringIO()) as fakeOutput:
+        with patch("builtins.input", side_effect=input_list):
+            with patch("sys.stdout", new=StringIO()) as fakeOutput:
                 bg.main()
                 random_number = []
                 console = fakeOutput.getvalue().strip().split("\n")
@@ -146,68 +144,55 @@ class TestBaseballGame(unittest.TestCase):
                 for i in range(0, 899):
                     if int(input_list[i]) < int(target_number):
                         if self.is_duplicated_number(input_list[i]):
-                            self.assertTrue(
-                                "WRONG INPUT" in console[i + 2].upper())
+                            self.assertTrue("WRONG INPUT" in console[i + 2].upper())
                         else:
                             strikes, ball = self.get_strikes_or_ball(
-                                input_list[i], target_number)
-                            self.assertIn(
-                                str(strikes), console[i + 2].upper())
-                            self.assertIn(
-                                str(ball), console[i + 2].upper())
+                                input_list[i], target_number
+                            )
+                            self.assertIn(str(strikes), console[i + 2].upper())
+                            self.assertIn(str(ball), console[i + 2].upper())
                     elif int(input_list[i]) > int(target_number):
-                        self.assertTrue(
-                                "WRONG INPUT" in console[i + 2].upper())
+                        self.assertTrue("WRONG INPUT" in console[i + 2].upper())
                     elif int(input_list[i]) == int(target_number):
                         self.assertIn(str(3), console[i + 2].upper())
                         self.assertIn(str(0), console[i + 2].upper())
-                        self.assertIn(
-                            "Strikes".upper(), console[i + 2].upper())
-                        self.assertIn(
-                            "Balls".upper(), console[i + 2].upper())
+                        self.assertIn("Strikes".upper(), console[i + 2].upper())
+                        self.assertIn("Balls".upper(), console[i + 2].upper())
 
                 target_number = random_number[1]
                 for i in range(900, len(input_list)):
                     if input_list[i].isdigit():
                         if int(input_list[i]) < int(target_number):
                             if self.is_duplicated_number(input_list[i]):
-                                self.assertTrue(
-                                    "WRONG INPUT" in console[i + 2].upper())
+                                self.assertTrue("WRONG INPUT" in console[i + 2].upper())
                             else:
                                 strikes, ball = self.get_strikes_or_ball(
-                                    input_list[i], target_number)
-                                self.assertIn(
-                                    str(strikes), console[i + 2].upper())
-                                self.assertIn(
-                                    str(ball), console[i + 2].upper())
+                                    input_list[i], target_number
+                                )
+                                self.assertIn(str(strikes), console[i + 2].upper())
+                                self.assertIn(str(ball), console[i + 2].upper())
                         elif int(input_list[i]) > int(target_number):
-                            self.assertTrue(
-                                    "WRONG INPUT" in console[i + 2].upper())
+                            self.assertTrue("WRONG INPUT" in console[i + 2].upper())
                         elif int(input_list[i]) == int(target_number):
                             self.assertIn(str(3), console[i + 2].upper())
                             self.assertIn(str(0), console[i + 2].upper())
-                            self.assertIn(
-                                "Strikes".upper(), console[i + 2].upper())
-                            self.assertIn(
-                                "Balls".upper(), console[i + 2].upper())
+                            self.assertIn("Strikes".upper(), console[i + 2].upper())
+                            self.assertIn("Balls".upper(), console[i + 2].upper())
                     else:
-                        if not(self.is_no(input_list[i])):
-                            self.assertTrue(
-                                "WRONG INPUT" in console[i + 2].upper())
+                        if not (self.is_no(input_list[i])):
+                            self.assertTrue("WRONG INPUT" in console[i + 2].upper())
                         else:
+                            self.assertIn("Thank you".upper(), console[i + 2].upper())
                             self.assertIn(
-                                "Thank you".upper(), console[i + 2].upper())
-                            self.assertIn(
-                                "End of the Game".upper(), console[i + 3].upper())
-
+                                "End of the Game".upper(), console[i + 3].upper()
+                            )
 
     def is_no(self, one_more_input):
-        if one_more_input.upper() == 'NO':
+        if one_more_input.upper() == "NO":
             return True
-        if one_more_input.upper() == 'N':
+        if one_more_input.upper() == "N":
             return True
         return False
-
 
     def is_duplicated_number(self, three_digit):
         for number in three_digit:
@@ -224,10 +209,14 @@ class TestBaseballGame(unittest.TestCase):
         ball = 0
 
         for number in user_input_number:
-            if (number in random_number):
+            if number in random_number:
                 if user_input_number.index(number) is random_number.index(number):
                     strikes += 1
                 else:
                     ball += 1
         result = [strikes, ball]
         return result
+
+
+if __name__ == "__main__":
+    unittest.main()
